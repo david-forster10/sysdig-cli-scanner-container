@@ -11,19 +11,28 @@ RUN apk add --no-cache curl && \
     sha256sum -c <(curl -sL "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$version/linux/$arch/sysdig-cli-scanner.sha256") && \
     chmod +x sysdig-cli-scanner
 
+FROM alpine/helm:3 as helm
+
+WORKDIR /work
+
+RUN helm repo add sysdig https://charts.sysdig.com && helm repo update
+RUN helm pull sysdig/registry-scanner && helm pull sysdig/shield
+
 FROM alpine:3
 
 WORKDIR /scanner
 
 RUN apk add --no-cache tini && \
-    mkdir -p /cache && \
+    mkdir -p /cache && 
+    mkdir -p /helm-assets && \
     adduser -D -h /scanner scanuser && \
-    chown -R scanuser:scanuser /cache /scanner
+    chown -R scanuser:scanuser /cache /scanner /helm-assets
 
 USER scanuser
 
 COPY entrypoint.sh /entrypoint.sh
 COPY --chown=scanuser:scanuser --from=downloader /work/sysdig-cli-scanner /scanner/sysdig-cli-scanner
+COPY --chown=scanuser:scanuser --from=helm /work/ /helm-assets/
 
 ENTRYPOINT ["/sbin/tini", "--", "/entrypoint.sh"]
 
