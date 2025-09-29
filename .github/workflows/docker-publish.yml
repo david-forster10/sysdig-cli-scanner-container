@@ -8,7 +8,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: filippobuletto/sysdig-cli-scanner
+  IMAGE_NAME: david-forster10/sysdig-cli-scanner
   VERSION_FILE: latest_version.txt
   UPDATE_FILE: last_update.txt
 
