@@ -21,7 +21,7 @@ jobs:
         id: checkout
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: GET latest version
         id: version
         run: |
