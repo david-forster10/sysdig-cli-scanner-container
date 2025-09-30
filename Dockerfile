@@ -23,7 +23,7 @@ FROM alpine:3
 WORKDIR /scanner
 
 RUN apk add --no-cache tini && \
-    mkdir -p /cache && 
+    mkdir -p /cache && \
     mkdir -p /helm-assets && \
     adduser -D -h /scanner scanuser && \
     chown -R scanuser:scanuser /cache /scanner /helm-assets
