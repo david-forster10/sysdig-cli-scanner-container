@@ -87,7 +87,7 @@ jobs:
           ignore-unfixed: true
         env:
           TRIVY_USERNAME: ${{ github.actor }}
-          TRIVY_PASSWORD: ${{ secrets.GH_TOKEN }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Trivy scan results to GitHub Security tab
         id: serif
       #  if: ${{ steps.getcommit.outputs.good > 0 }}
